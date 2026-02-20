@@ -14,3 +14,6 @@ if __name__ == "__main__":
     nombre = input("Como te llamas? ")
     print(saludar(nombre))
 '''
+
+def despedida(nombre):
+    return f"Adios, {nombre}!"
