@@ -18,7 +18,7 @@ El programa procesa cada línea siguiendo estas reglas:
 5. Imprime el resultado
 
 ## Ejemplos
-Entrada: 
+### Entrada:
 1,2,3  
 10  
 
@@ -34,7 +34,7 @@ abc,def
 ,1,2,  
 100  
 
-Salida:
+### Salida:  
 6  
 10  
 6  
