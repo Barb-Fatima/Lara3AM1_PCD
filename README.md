@@ -19,34 +19,34 @@ El programa procesa cada línea siguiendo estas reglas:
 
 ## Ejemplos
 Entrada: 
-1,2,3
-10
+1,2,3  
+10  
 
-1.9,2.1,3.7
-1a2,3b,4
--5,10,3
+1.9,2.1,3.7  
+1a2,3b,4  
+-5,10,3  
   5 , 10 , 15  
-0,0,0
--1,-2,-3
-abc,def
-3.99
--0.5,0.5
-,1,2,
-100
+0,0,0  
+-1,-2,-3  
+abc,def  
+3.99  
+-0.5,0.5  
+,1,2,  
+100  
 
 Salida:
-6
-10
-6
-8
-30
-0
--6
-0
-3
-0
-3
-100
+6  
+10  
+6  
+8  
+30  
+0  
+-6  
+0  
+3  
+0  
+3  
+100  
 
 ## Clona el repositorio:
 git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git
