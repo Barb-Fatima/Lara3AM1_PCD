@@ -49,4 +49,4 @@ Salida:
 100
 
 ## Clona el repositorio:
-git clone https://github.com/Barb-Fatima/reto-semana-01.git
+git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git
