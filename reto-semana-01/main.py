@@ -37,7 +37,7 @@ def convertir_a_entero(texto):
     
     try:
         numero = float(texto)  #convertir a float
-        return int(numero)     #Truncar a entero (hacia cero)
+        return int(numero)     #Truncar
     except ValueError:
         # Si no se puede convertir
         return 0
