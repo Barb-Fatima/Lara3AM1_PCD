@@ -8,7 +8,6 @@ import sys
 def fahrenheit_a_celsius(fahrenheit):
     return (fahrenheit - 32) * 5 / 9
 
-
 def clasificar_temperatura(celsius):
     if celsius < 0:
         return "Congelante"
@@ -20,7 +19,6 @@ def clasificar_temperatura(celsius):
         return "Calido"
     else:
         return "Extremo"
-
 
 def procesar_linea(linea):
     """
@@ -43,7 +41,6 @@ def procesar_linea(linea):
     temperatura_str = partes[1].strip()
     unidad = partes[2].strip().upper()
     
-    # Validar unidad
     if unidad not in ['C', 'F']:
         return None
     
@@ -68,10 +65,9 @@ def main():
     """
     Lee desde stdin, procesa los datos y escribe el resultado en stdout.
     """
-    # Variable para identificar encabezado
+    # Identificar encabezado
     primera_linea = True
     
-    # Imprimir encabezado
     print("ciudad,temperatura_celsius,clasificacion")
     
     # Leer línea por línea desde stdin
@@ -86,7 +82,6 @@ def main():
         if resultado:
             ciudad, celsius, clasificacion = resultado
             print(f"{ciudad},{celsius:.1f},{clasificacion}")
-
 
 if __name__ == "__main__":
     main()

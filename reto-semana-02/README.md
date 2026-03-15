@@ -14,11 +14,11 @@ El programa procesa cada línea siguiendo estas reglas:
 1. Ignora la primera línea (encabezados)
 2. Convierte temperaturas en Fahrenheit a Celsius usando la fórmula: (F - 32) * 5 / 9
 3. Clasifica la temperatura según los siguientes rangos:
-   - < 0°C → Congelante
+   - Menor de 0°C → Congelante
    - 0°C a 15°C → Frio
    - 16°C a 25°C → Templado
    - 26°C a 35°C → Calido
-   - > 35°C → Extremo
+   - Mayor a 35°C → Extremo
 4. Ignora líneas con datos inválidos (unidad incorrecta, temperatura no numérica, formato incorrecto)
 5. Muestra la temperatura en Celsius con 1 decimal
 
