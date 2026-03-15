@@ -60,7 +60,6 @@ def procesar_linea(linea):
     else:
         celsius = temperatura
     
-    # Clasificar
     clasificacion = clasificar_temperatura(celsius)
     
     return (ciudad, celsius, clasificacion)
