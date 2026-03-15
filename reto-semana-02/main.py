@@ -30,7 +30,6 @@ def procesar_linea(linea):
     # Eliminar espacios en blanco al inicio y final
     linea = linea.strip()
     
-    # Ignorar líneas vacías
     if not linea:
         return None
     
