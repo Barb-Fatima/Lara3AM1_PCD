@@ -1,11 +1,13 @@
+"""
+Analizador de Ventas - Reto Semana 3:
+Lee un CSV desde stdin y genera un reporte ordenado por ingreso (descendente).
+Programacion para Ciencia de Datos - IPN
+Lara Herrera Barbara Fatima. 3AM1
+"""
+
 import sys
 
 def main():
-    """
-    Analizador de Ventas: Lee un CSV desde stdin, consolida las ventas por producto,
-    calcula unidades, ingreso total y precio promedio, y genera un reporte ordenado
-    por ingreso descendente.
-    """
     # Diccionario para agrupar los datos: clave = nombre del producto
     # Valor = diccionario con 'unidades' (int) e 'ingreso' (float)
     productos = {}
