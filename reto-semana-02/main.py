@@ -31,7 +31,6 @@ def procesar_linea(linea):
     if not linea:
         return None
     
-    # Separar por comas
     partes = linea.split(',')
     if len(partes) != 3:
         return None
