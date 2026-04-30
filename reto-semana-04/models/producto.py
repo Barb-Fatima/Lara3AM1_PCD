@@ -41,3 +41,8 @@ class Producto:
     def __str__(self):
         # Impresión en la terminal de productos que necesitan reorden
         return f"{self.sku}: {self.nombre} - Stock: {self.stock}/{self.stock_minimo}"
+
+    def __repr__(self):
+        # Para programadores
+        return (f"Producto('{self.sku}', '{self.nombre}', '{self.categoria}', "
+                f"{self.precio}, {self.stock}, {self.stock_minimo})")
