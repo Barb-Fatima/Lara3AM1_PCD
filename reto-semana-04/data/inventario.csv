@@ -1,0 +1,32 @@
+sku,nombre,categoria,precio,stock,stock_minimo
+SKU00001,Notebook Acer,Electronica,13098.61,45,25
+SKU00002,Teclado Mecanico TP-Link,Accesorios,869.72,86,30
+SKU00003,Mouse Gaming Epson,Accesorios,725.53,14,5
+SKU00004,Monitor Gaming HP,Electronica,22879.96,2,5
+SKU00005,Audifonos Bluetooth Dell,Audio,939.54,12,???
+SKU00006,USB Drive Kingston,Almacenamiento,157.26,18,25
+SKU00007,Microfono USB TP-Link,Audio,1300.31,86,30
+SKU00008,HDD WD,Almacenamiento,2602.18
+SKU00009,Monitor 4K Lenovo,Electronica,10931.78,5,5
+SKU00010,Teclado Gaming Lenovo,Accesorios,3808.51,37,20
+SKU00011,Bocina Sony,Audio,1539.39,10,5
+SKU00012,Placa Base,Componentes,6522.98,55,50
+SKU00013,Tarjeta Video TP-Link,Componentes,4122.72,67,25
+SKU00014,Mouse Ergonomico Gigabyte,Accesorios,1175.91,28,10
+SKU00015,NAS BenQ,Almacenamiento,17453.50,sin_dato,50
+SKU00016,USB Drive Epson,Almacenamiento,76.46,55,20
+SKU00017,Audifonos Gaming Asus,Audio,inf,16,15
+SKU00018,Soporte Monitor,Accesorios,1147.83,13,30
+SKU00019,Mouse Ergonomico TP-Link,Accesorios,1038.34,59,50
+SKU00020,Teclado Mecanico Apple,Accesorios,2548.88,0,10
+SKU00021,Audifonos HP,Audio,849.12,10,30
+SKU00022,Laptop SanDisk,Electronica,16197.21,28,10
+SKU00023,Teclado Mecanico Anker,Accesorios,1049.79,mil,20
+SKU00024,Mouse Gaming Samsung,Accesorios,1038.25,4,12..5
+SKU00025,Teclado HyperX,Accesorios,1467.30,26
+SKU00026,Pantalla Portatil Kingston,Electronica,9033.58,74,30
+SKU00027,Monitor Gaming Dell,Electronica,13088.87,20,50
+SKU00028,HDD Seagate,Almacenamiento,877.09,83,30
+SKU00029,Teclado Mecanico Canon,Accesorios,1498.64,20,30
+SKU00030,Barra Sonido Gigabyte,Audio,9307.18,31,20
+#Generado con el programa generar_entrada.py proporcionado por el profesor Mario Augusto en la carpeta semana_04

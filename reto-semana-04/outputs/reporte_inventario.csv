@@ -1,0 +1,8 @@
+sku,nombre,categoria,stock_actual,stock_minimo,unidades_faltantes,valor_inventario
+SKU00027,Monitor Gaming Dell,Electronica,20,50,30,261777.40
+SKU00021,Audifonos HP,Audio,10,30,20,8491.20
+SKU00018,Soporte Monitor,Accesorios,13,30,17,14921.79
+SKU00020,Teclado Mecanico Apple,Accesorios,0,10,10,0.00
+SKU00029,Teclado Mecanico Canon,Accesorios,20,30,10,29972.80
+SKU00006,USB Drive Kingston,Almacenamiento,18,25,7,2830.68
+SKU00004,Monitor Gaming HP,Electronica,2,5,3,45759.92

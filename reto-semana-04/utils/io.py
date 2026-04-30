@@ -27,7 +27,6 @@ def leer_inventario(ruta_archivo):
     return productos_raw
 
 def escribir_reporte(productos, ruta_archivo):
-    # Escribe el reporte de productos que necesitan reordenarse
     encabezados = [
         "sku", "nombre", "categoria", "stock_actual",
         "stock_minimo", "unidades_faltantes", "valor_inventario"
