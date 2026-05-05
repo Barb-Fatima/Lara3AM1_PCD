@@ -7,7 +7,6 @@ Lara Herrera Barbara Fatima. 3AM1
 
 import argparse
 import sys
-import os
 from pathlib import Path
 
 

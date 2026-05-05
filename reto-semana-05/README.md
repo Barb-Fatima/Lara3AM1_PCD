@@ -30,6 +30,36 @@ Es útil para explorar datasets desconocidos antes de realizar análisis más pr
 | `porcentaje_unicos` | Porcentaje de unicidad (2 decimales) |
 | `ejemplo_valor` | Primer valor no nulo encontrado en la columna |
 
+### Módulos de Python Utilizados en el Perfilador
+
+El perfilador de datasets utiliza exclusivamente la **biblioteca estándar de Python**, sin dependencias externas.
+
+#### 1. `argparse` - Gestión de argumentos de línea de comandos
+
+Permite definir, parsear y validar los argumentos que el usuario pasa al ejecutar el script desde la terminal.  
+La práctica requiere que el programa se ejecute así:
+*python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv*  
+argparse se encarga de:  
+- Definir qué argumentos son obligatorios (required=True)
+- Proveer mensajes de ayuda automáticos (--help o -h)
+- Convertir los argumentos en atributos accesibles (args.input, args.output)
+- Valida automáticamente que el usuario haya proporcionado los argumentos
+- Genera mensaje de error claro si falta algún argumento
+- Soporta nombres cortos (-i) y largos (--input)
+
+#### 2. `sys` - Parámetros específicos del sistema
+
+Proporciona acceso a variables y funciones interactuando directamente con el intérprete de Python y el sistema operativo.  
+Controlar la terminación del programa cuando ocurre un error crítico.
+
+**En el código:**  
+sys.exit(0): Ejecución exitosa (sin errores).  
+sys.exit(1): Ejecución con error (archivo no encontrado, datos inválidos, etc.)  
+
+#### 3. `Path` (de `pathlib`) - Gestión de rutas
+Es la forma "moderna" y multiplataforma de trabajar con rutas de archivos y directorios.  
+Disponible desde Python 3.4 (2014), reemplaza la mayoría de las funciones de os.path.
+
 ### Reglas de procesamiento
 
 #### 1. Detección de nulos
@@ -73,29 +103,29 @@ fecha,producto,cantidad,precio,vendedor
 2026-01-04,Monitor,3,,Carlos
 2026-01-05,Laptop,1,15000.00,
 
-Comando en CMD:
+**Comando en CMD:**
 
 python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv
-Salida en consola:
 
-Perfilando: data/ventas.csv
+**Salida en consola:**
+
 Columnas encontradas: 5
 Registros: 5
 Perfil guardado en: outputs/perfil_ventas.csv
 
-Salida (outputs/perfil_ventas.csv):
+**Salida (outputs/perfil_ventas.csv):**
 
-csv
 nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
 fecha,fecha,5,0,0.00,5,100.00,2026-01-01
 producto,texto,5,0,0.00,4,80.00,Laptop
 cantidad,numerico,5,1,20.00,4,80.00,2
 precio,numerico,5,1,20.00,3,60.00,15000.00
 vendedor,texto,5,1,20.00,3,60.00,Ana
-Ejemplo 2: Datos de empleados
-Entrada (data/empleados.csv):
 
-csv
+### Ejemplo 2: Datos de empleados
+
+**Entrada (`data/empleados.csv`):**
+
 id,nombre,email,departamento,salario,activo
 1,Ana Garcia,ana@empresa.com,TI,45000.00,true
 2,Bob Lopez,,Ventas,38000.00,true
@@ -103,12 +133,12 @@ id,nombre,email,departamento,salario,activo
 4,,diana@empresa.com,RRHH,41000.00,true
 5,Eva Torres,eva@empresa.com,,47000.00,true
 
-Comando en CMD:
+**Comando en CMD:**
 
 python main.py --input data/empleados.csv --output outputs/perfil_empleados.csv
-Salida (outputs/perfil_empleados.csv):
 
-csv
+**Salida (outputs/perfil_empleados.csv):**
+
 nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
 id,numerico,5,0,0.00,5,100.00,1
 nombre,texto,5,1,20.00,5,100.00,Ana Garcia
@@ -116,10 +146,11 @@ email,texto,5,1,20.00,5,100.00,ana@empresa.com
 departamento,texto,5,0,0.00,3,60.00,TI
 salario,numerico,5,0,0.00,5,100.00,45000.00
 activo,booleano,5,0,0.00,2,40.00,true
-Ejemplo 3: Datos de sensores IoT
-Entrada (data/sensores.csv):
 
-csv
+### Ejemplo 3: Datos de sensores IoT
+
+**Entrada (`data/sensores.csv`):**
+
 timestamp,sensor_id,temperatura,humedad,bateria
 2026-01-01 10:00:00,S001,23.5,65.2,98
 2026-01-01 10:05:00,S001,23.7,64.8,98
@@ -127,92 +158,76 @@ timestamp,sensor_id,temperatura,humedad,bateria
 2026-01-01 10:15:00,S001,,65.5,97
 2026-01-01 10:20:00,S003,25.2,70.1,
 
-Comando en CMD:
+**Comando en CMD:**
 
 python main.py --input data/sensores.csv --output outputs/perfil_sensores.csv
-Salida (outputs/perfil_sensores.csv):
 
-csv
+**Salida (`outputs/perfil_sensores.csv`):**
+
 nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
 timestamp,texto,5,0,0.00,5,100.00,2026-01-01 10:00:00
 sensor_id,texto,5,0,0.00,3,60.00,S001
 temperatura,numerico,5,1,20.00,4,80.00,23.5
 humedad,numerico,5,1,20.00,4,80.00,65.2
 bateria,numerico,5,1,20.00,2,40.00,98
-Ejemplo 4: Archivo vacío o sin datos
-Entrada (archivo con solo encabezados):
 
-csv
+### Ejemplo 4: Archivo vacío o sin datos
+
+**Entrada (`archivo con solo encabezados`):**
+
 id,nombre,precio
 
-Comando en CMD:
+**Comando en CMD:**
 
 python main.py --input data/vacio.csv --output outputs/perfil_vacio.csv
-Salida en consola:
 
-Perfilando: data/vacio.csv
+**Salida en consola:**
+
 Columnas encontradas: 3
 Registros: 0
 Perfil guardado en: outputs/perfil_vacio.csv
 
-Salida (outputs/perfil_vacio.csv):
+**Salida (`outputs/perfil_vacio.csv`):**
 
-csv
 nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
 id,texto,0,0,0.00,0,0.00,
 nombre,texto,0,0,0.00,0,0.00,
 precio,texto,0,0,0.00,0,0.00,
-Ejemplo 5: Archivo no encontrado
 
-Comando en CMD:
+### Ejemplo 5: Archivo no encontrado
+
+**Comando en CMD:**
 
 python main.py --input data/no_existe.csv --output outputs/perfil.csv
-Salida en consola:
 
-text
-📊 Perfilando: data/no_existe.csv
-❌ Error: No se encontro el archivo data/no_existe.csv
-Clonar el repositorio
-bash
-git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git
+**Salida en consola:**
+
+Error: No se encontro el archivo data/no_existe.csv
+
+## Clonar el repositorio
+git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git  
 cd Lara3AM1_PCD/reto_semana_05
-Instalación y ejecución
-1. Crear ambiente virtual
-bash
+
+## Requisitos
+**Python 3.6 o superior:**  
+El formato de cadenas *f-strings* (`f"texto {variable}"`) fue introducido en Python 3.6
+
+## Instalación y ejecución
+1. Crear ambiente virtual  
 python -m venv .venv
-2. Activar ambiente virtual
-Windows:
 
-bash
+2. Activar ambiente virtual  
+Windows:  
 .venv\Scripts\activate
-Linux/Mac:
 
-bash
+Linux/Mac:   
 source .venv/bin/activate
-3. Instalar dependencias
-bash
+
+3. Instalar dependencias (para este caso no se necesitan dependencias)  
 pip install -r requirements.txt
-4. Ejecutar el perfilador
-bash
+
+4. Ejecutar el perfilador  
 python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv
-Estructura del proyecto
-text
-reto_semana_05/
-│
-├── main.py                 # Programa principal
-├── requirements.txt        # Dependencias (vacío - solo biblioteca estándar)
-├── README.md               # Este archivo
-├── .gitignore              # Archivos ignorados
-│
-├── data/                   # CSVs de prueba
-│   ├── ventas.csv
-│   ├── empleados.csv
-│   └── sensores.csv
-│
-└── outputs/                # Perfiles generados (se crea automáticamente)
-    ├── perfil_ventas.csv
-    ├── perfil_empleados.csv
-    └── perfil_sensores.csv
 
 ## Características técnicas
 - Sin dependencias externas: solo biblioteca estándar de Python.
@@ -223,6 +238,6 @@ reto_semana_05/
 - Case-sensitive para valores únicos.
 - Crea automáticamente el directorio de salida.
 
-Autor: Lara Herrera Barbara Fatima
-Programación para Ciencia de Datos - IPN
-Semestre Febrero-Julio 2026
+Autor: Lara Herrera Barbara Fatima  
+Programación para Ciencia de Datos - IPN  
+Semestre Febrero-Julio 2026  
