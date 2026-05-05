@@ -1,63 +1,228 @@
-# Analizador de Ventas - Reto Semana 3
+# Perfilador de Datasets - Reto Semana 5
 # Lara Herrera Barbara Fatima. 3AM1
 
-Programa que procesa transacciones de ventas de una tienda de tecnología, consolida los datos por producto y genera un reporte con métricas clave ordenado por ingreso total.
+Herramienta que analiza automáticamente cualquier archivo CSV y genera un reporte de calidad de datos, incluyendo detección de tipos de datos, valores nulos, unicidad y ejemplos de valores.
 
 ## Descripción
 
-Este programa lee datos desde la entrada estándar (stdin) en formato CSV. Cada línea contiene:
-- Fecha de la venta (YYYY-MM-DD)
-- Nombre del producto
-- Cantidad vendida (entero)
-- Precio unitario (decimal)
+El programa recibe como entrada un archivo CSV y produce un perfil detallado de cada columna.  
+Es útil para explorar datasets desconocidos antes de realizar análisis más profundos.
 
-El programa procesa cada línea siguiendo estas reglas:
-1. Ignora la primera línea (encabezados)
-2. Agrupa todas las transacciones del mismo producto
-3. Calcula por producto:
-   - Unidades vendidas: suma de todas las cantidades
-   - Ingreso total: suma de (cantidad × precio) de cada transacción
-   - Precio promedio: ingreso total / unidades vendidas
-4. Ordena los productos por ingreso total de mayor a menor
-5. Ignora líneas con datos inválidos (cantidad no numérica, precio no numérico, formato incorrecto)
-6. Muestra los valores monetarios con 2 decimales
+### Parámetros de entrada (línea de comandos):
+- `--input` o `-i`: Ruta al archivo CSV que se desea perfilar
+- `--output` o `-o`: Ruta donde se guardará el reporte generado
+
+### Formato del CSV de entrada:
+- Primera fila: encabezados (nombres de columnas)
+- Separador: coma `,`
+- Codificación: UTF-8
+
+### ¿Qué se calcula para cada columna?
+
+| Columna de salida | Descripción |
+|------------------|-------------|
+| `nombre_columna` | Nombre de la columna analizada |
+| `tipo_inferido` | Tipo detectado: `numerico`, `texto`, `fecha` o `booleano` |
+| `total_registros` | Cantidad total de filas (sin contar encabezado) |
+| `valores_nulos` | Cantidad de valores vacíos o nulos |
+| `porcentaje_nulos` | Porcentaje de nulos (2 decimales) |
+| `valores_unicos` | Cantidad de valores distintos (sin contar nulos) |
+| `porcentaje_unicos` | Porcentaje de unicidad (2 decimales) |
+| `ejemplo_valor` | Primer valor no nulo encontrado en la columna |
+
+### Reglas de procesamiento
+
+#### 1. Detección de nulos
+Se considera **nulo**:
+- Celda vacía `,,`
+- Celda con solo espacios `, ,`
+- String vacío `""`
+
+**NO** son nulos:
+- El número `0`
+- El string `"0"`
+- Los strings `"null"` o `"None"`
+
+#### 2. Inferencia de tipos
+Se analizan los valores **no nulos** de cada columna:
+- `numerico`: más del 80% de los valores pueden convertirse a float
+- `fecha`: más del 80% tienen formato YYYY-MM-DD
+- `booleano`: más del 80% son true/false/yes/no/si/1/0
+- `texto`: cualquier otro caso
+
+#### 3. Valores únicos
+- Solo se cuentan valores **no nulos**
+- Diferencia entre mayúsculas y minúsculas
+- Cada valor distinto cuenta una vez
+
+#### 4. Porcentajes
+- Siempre con **2 decimales**
+- Sin símbolo de porcentaje en el CSV
+- Ejemplos: `0.00`, `25.50`, `100.00`
 
 ## Ejemplos
 
-### Entrada:
-fecha,producto,cantidad,precio_unitario  
-2026-01-01,Laptop,2,15000.00  
-2026-01-02,Mouse,10,250.00  
-2026-01-03,Laptop,1,14500.00  
-2026-01-04,Teclado,5,800.00  
-2026-01-05,Mouse,8,250.00  
+### Ejemplo 1: Datos de ventas
 
-### Salida:
-producto,unidades_vendidas,ingreso_total,precio_promedio  
-Laptop,3,44500.00,14833.33  
-Mouse,18,4500.00,250.00  
-Teclado,5,4000.00,800.00  
+**Entrada (`data/ventas.csv`):**
 
+fecha,producto,cantidad,precio,vendedor
+2026-01-01,Laptop,2,15000.00,Ana
+2026-01-02,Mouse,10,250.00,Bob
+2026-01-03,Teclado,,800.00,Ana
+2026-01-04,Monitor,3,,Carlos
+2026-01-05,Laptop,1,15000.00,
 
-### Entrada con datos inválidos:
-fecha,producto,cantidad,precio_unitario  
-2026-01-01,Laptop,2,15000.00  
-2026-01-02,Mouse,abc,250.00  
-2026-01-03,Teclado,5,invalid  
-2026-01-04,Laptop,1,14500.00  
-linea,incompleta  
+Comando en CMD:
 
-### Salida (ignora líneas inválidas):
-producto,unidades_vendidas,ingreso_total,precio_promedio  
-Laptop,3,44500.00,14833.33  
+python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv
+Salida en consola:
 
-### Entrada con producto único:
-fecha,producto,cantidad,precio_unitario  
-2026-01-01,Monitor,1,5000.00  
+Perfilando: data/ventas.csv
+Columnas encontradas: 5
+Registros: 5
+Perfil guardado en: outputs/perfil_ventas.csv
 
-### Salida:
-producto,unidades_vendidas,ingreso_total,precio_promedio  
-Monitor,1,5000.00,5000.00  
+Salida (outputs/perfil_ventas.csv):
 
-## Clonar el repositorio:
+csv
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
+fecha,fecha,5,0,0.00,5,100.00,2026-01-01
+producto,texto,5,0,0.00,4,80.00,Laptop
+cantidad,numerico,5,1,20.00,4,80.00,2
+precio,numerico,5,1,20.00,3,60.00,15000.00
+vendedor,texto,5,1,20.00,3,60.00,Ana
+Ejemplo 2: Datos de empleados
+Entrada (data/empleados.csv):
+
+csv
+id,nombre,email,departamento,salario,activo
+1,Ana Garcia,ana@empresa.com,TI,45000.00,true
+2,Bob Lopez,,Ventas,38000.00,true
+3,Carlos Ruiz,carlos@empresa.com,TI,52000.00,false
+4,,diana@empresa.com,RRHH,41000.00,true
+5,Eva Torres,eva@empresa.com,,47000.00,true
+
+Comando en CMD:
+
+python main.py --input data/empleados.csv --output outputs/perfil_empleados.csv
+Salida (outputs/perfil_empleados.csv):
+
+csv
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
+id,numerico,5,0,0.00,5,100.00,1
+nombre,texto,5,1,20.00,5,100.00,Ana Garcia
+email,texto,5,1,20.00,5,100.00,ana@empresa.com
+departamento,texto,5,0,0.00,3,60.00,TI
+salario,numerico,5,0,0.00,5,100.00,45000.00
+activo,booleano,5,0,0.00,2,40.00,true
+Ejemplo 3: Datos de sensores IoT
+Entrada (data/sensores.csv):
+
+csv
+timestamp,sensor_id,temperatura,humedad,bateria
+2026-01-01 10:00:00,S001,23.5,65.2,98
+2026-01-01 10:05:00,S001,23.7,64.8,98
+2026-01-01 10:10:00,S002,22.1,,97
+2026-01-01 10:15:00,S001,,65.5,97
+2026-01-01 10:20:00,S003,25.2,70.1,
+
+Comando en CMD:
+
+python main.py --input data/sensores.csv --output outputs/perfil_sensores.csv
+Salida (outputs/perfil_sensores.csv):
+
+csv
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
+timestamp,texto,5,0,0.00,5,100.00,2026-01-01 10:00:00
+sensor_id,texto,5,0,0.00,3,60.00,S001
+temperatura,numerico,5,1,20.00,4,80.00,23.5
+humedad,numerico,5,1,20.00,4,80.00,65.2
+bateria,numerico,5,1,20.00,2,40.00,98
+Ejemplo 4: Archivo vacío o sin datos
+Entrada (archivo con solo encabezados):
+
+csv
+id,nombre,precio
+
+Comando en CMD:
+
+python main.py --input data/vacio.csv --output outputs/perfil_vacio.csv
+Salida en consola:
+
+Perfilando: data/vacio.csv
+Columnas encontradas: 3
+Registros: 0
+Perfil guardado en: outputs/perfil_vacio.csv
+
+Salida (outputs/perfil_vacio.csv):
+
+csv
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
+id,texto,0,0,0.00,0,0.00,
+nombre,texto,0,0,0.00,0,0.00,
+precio,texto,0,0,0.00,0,0.00,
+Ejemplo 5: Archivo no encontrado
+
+Comando en CMD:
+
+python main.py --input data/no_existe.csv --output outputs/perfil.csv
+Salida en consola:
+
+text
+📊 Perfilando: data/no_existe.csv
+❌ Error: No se encontro el archivo data/no_existe.csv
+Clonar el repositorio
+bash
 git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git
+cd Lara3AM1_PCD/reto_semana_05
+Instalación y ejecución
+1. Crear ambiente virtual
+bash
+python -m venv .venv
+2. Activar ambiente virtual
+Windows:
+
+bash
+.venv\Scripts\activate
+Linux/Mac:
+
+bash
+source .venv/bin/activate
+3. Instalar dependencias
+bash
+pip install -r requirements.txt
+4. Ejecutar el perfilador
+bash
+python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv
+Estructura del proyecto
+text
+reto_semana_05/
+│
+├── main.py                 # Programa principal
+├── requirements.txt        # Dependencias (vacío - solo biblioteca estándar)
+├── README.md               # Este archivo
+├── .gitignore              # Archivos ignorados
+│
+├── data/                   # CSVs de prueba
+│   ├── ventas.csv
+│   ├── empleados.csv
+│   └── sensores.csv
+│
+└── outputs/                # Perfiles generados (se crea automáticamente)
+    ├── perfil_ventas.csv
+    ├── perfil_empleados.csv
+    └── perfil_sensores.csv
+
+## Características técnicas
+- Sin dependencias externas: solo biblioteca estándar de Python.
+- Manejo de errores: archivo no encontrado, archivo vacío.
+- Detección de tipos: 80% de umbral.
+- Soporte para booleanos: múltiples formatos.
+- Porcentajes con 2 decimales.
+- Case-sensitive para valores únicos.
+- Crea automáticamente el directorio de salida.
+
+Autor: Lara Herrera Barbara Fatima
+Programación para Ciencia de Datos - IPN
+Semestre Febrero-Julio 2026
