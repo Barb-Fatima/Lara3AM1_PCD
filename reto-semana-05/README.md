@@ -96,11 +96,11 @@ Se analizan los valores **no nulos** de cada columna:
 
 **Entrada (`data/ventas.csv`):**
 
-fecha,producto,cantidad,precio,vendedor
-2026-01-01,Laptop,2,15000.00,Ana
-2026-01-02,Mouse,10,250.00,Bob
-2026-01-03,Teclado,,800.00,Ana
-2026-01-04,Monitor,3,,Carlos
+fecha,producto,cantidad,precio,vendedor  
+2026-01-01,Laptop,2,15000.00,Ana  
+2026-01-02,Mouse,10,250.00,Bob  
+2026-01-03,Teclado,,800.00,Ana  
+2026-01-04,Monitor,3,,Carlos  
 2026-01-05,Laptop,1,15000.00,
 
 **Comando en CMD:**
@@ -109,28 +109,28 @@ python main.py --input data/ventas.csv --output outputs/perfil_ventas.csv
 
 **Salida en consola:**
 
-Columnas encontradas: 5
-Registros: 5
+Columnas encontradas: 5  
+Registros: 5  
 Perfil guardado en: outputs/perfil_ventas.csv
 
 **Salida (outputs/perfil_ventas.csv):**
 
-nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
-fecha,fecha,5,0,0.00,5,100.00,2026-01-01
-producto,texto,5,0,0.00,4,80.00,Laptop
-cantidad,numerico,5,1,20.00,4,80.00,2
-precio,numerico,5,1,20.00,3,60.00,15000.00
-vendedor,texto,5,1,20.00,3,60.00,Ana
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor  
+fecha,fecha,5,0,0.00,5,100.00,2026-01-01  
+producto,texto,5,0,0.00,4,80.00,Laptop  
+cantidad,numerico,5,1,20.00,4,80.00,2  
+precio,numerico,5,1,20.00,3,60.00,15000.00  
+vendedor,texto,5,1,20.00,3,60.00,Ana  
 
 ### Ejemplo 2: Datos de empleados
 
 **Entrada (`data/empleados.csv`):**
 
-id,nombre,email,departamento,salario,activo
-1,Ana Garcia,ana@empresa.com,TI,45000.00,true
-2,Bob Lopez,,Ventas,38000.00,true
-3,Carlos Ruiz,carlos@empresa.com,TI,52000.00,false
-4,,diana@empresa.com,RRHH,41000.00,true
+id,nombre,email,departamento,salario,activo  
+1,Ana Garcia,ana@empresa.com,TI,45000.00,true  
+2,Bob Lopez,,Ventas,38000.00,true  
+3,Carlos Ruiz,carlos@empresa.com,TI,52000.00,false  
+4,,diana@empresa.com,RRHH,41000.00,true  
 5,Eva Torres,eva@empresa.com,,47000.00,true
 
 **Comando en CMD:**
@@ -139,23 +139,23 @@ python main.py --input data/empleados.csv --output outputs/perfil_empleados.csv
 
 **Salida (outputs/perfil_empleados.csv):**
 
-nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
-id,numerico,5,0,0.00,5,100.00,1
-nombre,texto,5,1,20.00,5,100.00,Ana Garcia
-email,texto,5,1,20.00,5,100.00,ana@empresa.com
-departamento,texto,5,0,0.00,3,60.00,TI
-salario,numerico,5,0,0.00,5,100.00,45000.00
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor  
+id,numerico,5,0,0.00,5,100.00,1  
+nombre,texto,5,1,20.00,5,100.00,Ana Garcia  
+email,texto,5,1,20.00,5,100.00,ana@empresa.com  
+departamento,texto,5,0,0.00,3,60.00,TI  
+salario,numerico,5,0,0.00,5,100.00,45000.00  
 activo,booleano,5,0,0.00,2,40.00,true
 
 ### Ejemplo 3: Datos de sensores IoT
 
 **Entrada (`data/sensores.csv`):**
 
-timestamp,sensor_id,temperatura,humedad,bateria
-2026-01-01 10:00:00,S001,23.5,65.2,98
-2026-01-01 10:05:00,S001,23.7,64.8,98
-2026-01-01 10:10:00,S002,22.1,,97
-2026-01-01 10:15:00,S001,,65.5,97
+timestamp,sensor_id,temperatura,humedad,bateria  
+2026-01-01 10:00:00,S001,23.5,65.2,98  
+2026-01-01 10:05:00,S001,23.7,64.8,98  
+2026-01-01 10:10:00,S002,22.1,,97  
+2026-01-01 10:15:00,S001,,65.5,97  
 2026-01-01 10:20:00,S003,25.2,70.1,
 
 **Comando en CMD:**
@@ -164,11 +164,11 @@ python main.py --input data/sensores.csv --output outputs/perfil_sensores.csv
 
 **Salida (`outputs/perfil_sensores.csv`):**
 
-nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
-timestamp,texto,5,0,0.00,5,100.00,2026-01-01 10:00:00
-sensor_id,texto,5,0,0.00,3,60.00,S001
-temperatura,numerico,5,1,20.00,4,80.00,23.5
-humedad,numerico,5,1,20.00,4,80.00,65.2
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor  
+timestamp,texto,5,0,0.00,5,100.00,2026-01-01 10:00:00  
+sensor_id,texto,5,0,0.00,3,60.00,S001  
+temperatura,numerico,5,1,20.00,4,80.00,23.5  
+humedad,numerico,5,1,20.00,4,80.00,65.2  
 bateria,numerico,5,1,20.00,2,40.00,98
 
 ### Ejemplo 4: Archivo vacío o sin datos
@@ -183,15 +183,15 @@ python main.py --input data/vacio.csv --output outputs/perfil_vacio.csv
 
 **Salida en consola:**
 
-Columnas encontradas: 3
-Registros: 0
+Columnas encontradas: 3  
+Registros: 0  
 Perfil guardado en: outputs/perfil_vacio.csv
 
 **Salida (`outputs/perfil_vacio.csv`):**
 
-nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor
-id,texto,0,0,0.00,0,0.00,
-nombre,texto,0,0,0.00,0,0.00,
+nombre_columna,tipo_inferido,total_registros,valores_nulos,porcentaje_nulos,valores_unicos,porcentaje_unicos,ejemplo_valor  
+id,texto,0,0,0.00,0,0.00,  
+nombre,texto,0,0,0.00,0,0.00,  
 precio,texto,0,0,0.00,0,0.00,
 
 ### Ejemplo 5: Archivo no encontrado
