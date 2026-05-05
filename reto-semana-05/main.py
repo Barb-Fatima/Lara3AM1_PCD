@@ -12,7 +12,6 @@ from pathlib import Path
 
 
 def es_valor_nulo(valor):
-    # Determina si un valor se considera nulo
     if valor is None:
         return True
     if isinstance(valor, str) and valor.strip() == "":
@@ -21,7 +20,6 @@ def es_valor_nulo(valor):
 
 
 def es_numerico(valor):
-    # Verifica si un valor es numerico
     try:
         float(str(valor).replace(',', '').strip())
         return True
@@ -30,7 +28,7 @@ def es_numerico(valor):
 
 
 def es_fecha(valor):
-    # Verifica si un valor parece una fecha YYYY-MM-DD
+    # YYYY-MM-DD
     v = str(valor).strip()
     if len(v) >= 10 and v[4] == '-' and v[7] == '-':
         try:
@@ -43,7 +41,6 @@ def es_fecha(valor):
 
 
 def es_booleano(valor):
-    # Verifica si un valor es booleano
     v = str(valor).strip().lower()
     return v in ['true', 'false', 'yes', 'no', 'si', '1', '0', 't', 'f']
 
@@ -52,10 +49,10 @@ def inferir_tipo(valores):
     # Infiere el tipo de una columna
     valores_validos = [v for v in valores if not es_valor_nulo(v)]
     if not valores_validos:
-        return "texto"
+        return "texto" # Si todo es nulo, asumimos texto
     
     total = len(valores_validos)
-    umbral = 0.8
+    umbral = 0.8 # 80% para determinar el tipo
     
     num_fechas = sum(1 for v in valores_validos if es_fecha(v))
     num_booleanos = sum(1 for v in valores_validos if es_booleano(v))
@@ -72,7 +69,7 @@ def inferir_tipo(valores):
 
 
 def perfilar_columna(nombre, valores):
-    # Genera la columna
+    # Genera las columnas para el csv de perfil
     total = len(valores)
     nulos = sum(1 for v in valores if es_valor_nulo(v))
     valores_no_nulos = [v for v in valores if not es_valor_nulo(v)]
@@ -110,8 +107,7 @@ def leer_csv(ruta):
 
 
 def escribir_csv(ruta, perfiles):
-    # Escribe el CSV de perfiles
-    # Crear directorio si no existe
+    # Escribe el CSV de perfiles y crea el directorio (si no existe)
     Path(ruta).parent.mkdir(parents=True, exist_ok=True)
     
     columnas = [
