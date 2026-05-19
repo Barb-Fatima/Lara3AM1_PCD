@@ -6,6 +6,18 @@ Lara Herrera Barbara Fatima. 3AM1
 """
 
 import sys
+import math
+
+# Función para manejar los tipo de dato inf y nan
+def valorValido(valor_str):
+    # Intentar convertir a tipo de dato float
+    try:
+        num = float(valor_str)
+        if math.isinf(num) or math.isnan(num):
+            return False
+        return True
+    except ValueError:
+        return False
 
 def main():
     # Diccionario: clave = nombre del producto
@@ -31,6 +43,14 @@ def main():
         producto = partes[1]
         cantidad_str = partes[2].strip()
         precio_str = partes[3].strip()
+
+        # Validar cantidad
+        if not valorValido(cantidad_str):
+            continue
+            
+        # Validar precio
+        if not valorValido(precio_str):
+            continue
 
         # convertir cantidad y precio_unitario
         try:
