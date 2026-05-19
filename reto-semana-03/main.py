@@ -10,35 +10,34 @@ import sys
 def main():
     # Diccionario: clave = nombre del producto
     productos = {}
-
     primera_linea = True
 
     for linea in sys.stdin:
         linea = linea.strip()
+        if not linea:
+            continue
 
         # Saltar encabezados
         if primera_linea:
             primera_linea = False
             continue
 
-        if not linea:
-            continue
-
+        #extraer las primeras 4 columnas
         partes = linea.split(',')
-
-        # Ignorar líneas con menos de 4 columnas
-        if len(partes) != 4:
+        if len(partes) < 4:
             continue
 
+        #tomar solo los primeros 4 valores y convertirlos a cadena
         producto = partes[1]
+        cantidad_str = partes[2].strip()
+        precio_str = partes[3].strip()
 
         # convertir cantidad y precio_unitario
         try:
             cantidad = int(partes[2])
             precio = float(partes[3])
         except ValueError:
-            # dato inválido
-            continue
+            continue #saltar linea si hay datos invalidos
 
         # Agrupar por producto. Si el producto no existe en el diccionario, inicializarlo
         if producto not in productos:
