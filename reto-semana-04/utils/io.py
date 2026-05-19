@@ -1,29 +1,17 @@
 # Funciones de lectura y escritura de archivos CSV
 
 def leer_inventario(ruta_archivo):
-    # Lee el archivo de inventario y retorna una lista de diccionarios
+    # lee el archivo csv y lo devuelve como un diciconario
+    import csv
     productos_raw = []
-
+    
     with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-        lineas = archivo.readlines()
-
-        if not lineas:
-            return productos_raw
-
-        encabezados = lineas[0].strip().split(',')
-
-        for linea in lineas[1:]:
-            linea = linea.strip()
-            if not linea:
-                continue
-
-            valores = linea.split(',')
-
-            # Solo procesar líneas con exactamente 6 columnas
-            if len(valores) == len(encabezados):
-                producto_dict = dict(zip(encabezados, valores))
-                productos_raw.append(producto_dict)
-
+        lector = csv.DictReader(archivo)
+        for num_linea, fila in enumerate(lector, start=2):
+            # Fila ya tiene exactamente las columnas del encabezado
+            # csv.DictReader ignora columnas extra automáticamente
+            productos_raw.append(fila)
+    
     return productos_raw
 
 def escribir_reporte(productos, ruta_archivo):
