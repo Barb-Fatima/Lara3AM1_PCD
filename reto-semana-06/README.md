@@ -103,7 +103,7 @@ FAC-A-123456,factura,VALIDO
 1. Clonar el repositorio:  
 git clone https://github.com/Barb-Fatima/Lara3AM1_PCD.git  
 cd Lara3AM1_PCD/reto-semana-06  
-2. Crear archivo de prueba:  
+2. Crear archivo de prueba, ejemplo:  
 TEC-0001-MX  
 ENV-2024-03-15-001234  
 EMP-VEN-1234  
