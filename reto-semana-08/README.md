@@ -243,7 +243,7 @@ El sistema implementa validaciones para:
 2. **Valores NaN**: Calcula estadísticas ignorando valores faltantes
 3. **Inconsistencias**: Verifica relaciones entre variables
 
-## 👨‍💻 Autor
+## Autor
 
 **Lara Herrera Bárbara Fátima**  
 3AM1 - Programación para Ciencia de Datos  
