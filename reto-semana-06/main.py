@@ -16,10 +16,7 @@ SERIES_VALIDAS = {'A', 'B', 'C', 'D', 'E'}
 
 
 def detectar_tipo(codigo):
-    """
-    Detecta el tipo de código según su estructura.
-    Retorna: 'producto', 'envio', 'empleado', 'factura' o 'desconocido'
-    """
+    # Retorna: 'producto', 'envio', 'empleado', 'factura' o 'desconocido'
     # Producto: 3 letras (may/min) - 4 digitos - 2 letras (may/min)
     if re.match(r'^[A-Za-z]{3}-\d{4}-[A-Za-z]{2}$', codigo):
         return 'producto'
@@ -40,9 +37,7 @@ def detectar_tipo(codigo):
 
 
 def validar_producto(codigo):
-    """
-    Valida producto: categoría y país deben ser mayúsculas.
-    """
+    # Categoría y país deben ser mayúsculas
     # Extraer partes
     match = re.match(r'^([A-Za-z]{3})-(\d{4})-([A-Za-z]{2})$', codigo)
     if not match:
@@ -55,9 +50,7 @@ def validar_producto(codigo):
 
 
 def validar_envio(codigo):
-    """
-    Valida envío: año 2020-2030, mes 01-12, día 01-31.
-    """
+    # año 2020-2030, mes 01-12, día 01-31
     match = re.match(r'^ENV-(\d{4})-(\d{2})-(\d{2})-(\d{6})$', codigo)
     if not match:
         return False
@@ -66,7 +59,6 @@ def validar_envio(codigo):
     mes = int(match.group(2))
     dia = int(match.group(3))
     
-    # Validar rangos
     if not (2020 <= anio <= 2030):
         return False
     if not (1 <= mes <= 12):
@@ -78,9 +70,7 @@ def validar_envio(codigo):
 
 
 def validar_empleado(codigo):
-    """
-    Valida empleado: departamento válido y número NO empieza con 0.
-    """
+    # Departamento válido y que su numero no empiece en 0
     match = re.match(r'^EMP-([A-Za-z]{3})-(\d{4})$', codigo)
     if not match:
         return False
@@ -100,9 +90,7 @@ def validar_empleado(codigo):
 
 
 def validar_factura(codigo):
-    """
-    Valida factura: serie A-E en mayúscula.
-    """
+    # Serie A-E en mayúscula.
     match = re.match(r'^FAC-([A-Za-z])-(\d{6})$', codigo)
     if not match:
         return False
@@ -114,10 +102,6 @@ def validar_factura(codigo):
 
 
 def validar_codigo(codigo):
-    """
-    Detecta tipo y valida el código.
-    Retorna: (tipo, es_valido)
-    """
     tipo = detectar_tipo(codigo)
     
     if tipo == 'producto':
