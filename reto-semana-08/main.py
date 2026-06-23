@@ -267,3 +267,152 @@ print(f"Confortable (20-25): {n_confortable:5d} ({100*n_confortable/n_validas:5.
 print(f"Cálido (25-30): {n_calido:5d} ({100*n_calido/n_validas:5.1f}%)")
 print(f"Muy caluroso (≥30): {n_muy_caluroso:5d} ({100*n_muy_caluroso/n_validas:5.1f}%)")
 print(f"Total válidas: {n_validas:5d}")
+
+
+# PARTE 4: ANÁLISIS AVANZADO
+print("\nPARTE 4: ANÁLISIS AVANZADO")
+
+# EJERCICIO 4.1: Detección de Anomalías
+print("\nEJERCICIO 4.1: Detección de Anomalías")
+
+# 1. Calcula la media y desviación estándar del CO2
+co2_media = np.nanmean(co2)
+co2_std = np.nanstd(co2)
+
+# 2. Define los límites (media ± 2*std)
+limite_inferior = co2_media - 2 * co2_std
+limite_superior = co2_media + 2 * co2_std
+
+print("\nANÁLISIS DE ANOMALÍAS EN CO2")
+print(f"Media CO2: {co2_media:.1f} ppm")
+print(f"Desv. Est.: {co2_std:.1f} ppm")
+print(f"Límite inferior: {limite_inferior:.1f} ppm")
+print(f"Límite superior: {limite_superior:.1f} ppm")
+
+# 3. Crea una máscara booleana para valores anómalos
+mascara_anomalias = (co2 < limite_inferior) | (co2 > limite_superior)
+
+# 4. Cuenta el número de anomalías
+n_anomalias = np.sum(mascara_anomalias)
+
+# 5. Obtén los valores anómalos
+valores_anomalos = co2[mascara_anomalias]
+
+print(f"\nANOMALÍAS DETECTADAS: {n_anomalias}")
+if n_anomalias > 0:
+    print(f"Valores: {valores_anomalos[:10].round(1)}")
+    if n_anomalias > 10:
+        print(f" ... y {n_anomalias - 10} más")
+
+# EJERCICIO 4.2: Análisis de Contingencia Ambiental
+print("EJERCICIO 4.2: Análisis de Contingencia Ambiental")
+
+DIA_CONTINGENCIA = 3
+
+# 1. Extrae los datos de CO2 del día de contingencia
+co2_contingencia = co2[:, DIA_CONTINGENCIA, :]
+
+# 2. Extrae los datos de CO2 de los días normales
+dias_normales = [0, 1, 2, 4, 5, 6]
+co2_dias_normales = co2[:, dias_normales, :]
+
+# 3. Calcula el promedio de CO2 en el día de contingencia
+promedio_contingencia = np.nanmean(co2_contingencia)
+
+# 4. Calcula el promedio de CO2 en días normales
+promedio_normal = np.nanmean(co2_dias_normales)
+
+# 5. Calcula el incremento porcentual
+incremento_porcentual = ((promedio_contingencia - promedio_normal) / promedio_normal) * 100
+
+print("╔══════════════════════════════════════════════════════════════╗")
+print("║           ANÁLISIS DE CONTINGENCIA AMBIENTAL                 ║")
+print("║                        Día 4                                 ║")
+print("╠══════════════════════════════════════════════════════════════╣")
+print(f"║  CO2 promedio día contingencia: {promedio_contingencia:>7.1f} ppm              ║")
+print(f"║  CO2 promedio días normales:    {promedio_normal:>7.1f} ppm              ║")
+print(f"║  Incremento:                    {incremento_porcentual:>7.1f} %               ║")
+print("╚══════════════════════════════════════════════════════════════╝")
+
+# 6. Identifica la estación más afectada
+co2_por_estacion_contingencia = np.nanmean(co2_contingencia, axis=1)
+co2_por_estacion_normal = np.nanmean(co2_dias_normales, axis=(1, 2))
+
+incremento_por_estacion = ((co2_por_estacion_contingencia - co2_por_estacion_normal) / 
+                           co2_por_estacion_normal) * 100
+
+idx_mas_afectada = np.argmax(incremento_por_estacion)
+
+print("\nIMPACTO POR ESTACIÓN")
+for i, est in enumerate(estaciones):
+    barra = "█" * int(incremento_por_estacion[i] / 2)
+    print(f" {est:15s}: +{incremento_por_estacion[i]:5.1f}% {barra}")
+
+print(f"\nEstación más afectada: {estaciones[idx_mas_afectada]}")
+
+
+# EJERCICIO BONUS: REPORTE EJECUTIVO
+print("\nREPORTE EJECUTIVO")
+
+# 1. Estación más calurosa
+idx_mas_calurosa = np.argmax(temp_por_estacion)
+estacion_mas_calurosa = estaciones[idx_mas_calurosa]
+
+# 2. Estación más húmeda
+humedad_por_estacion = np.nanmean(humedad, axis=(1, 2))
+idx_mas_humeda = np.argmax(humedad_por_estacion)
+estacion_mas_humeda = estaciones[idx_mas_humeda]
+
+# 3. Estación con mejor calidad de aire
+co2_por_estacion = np.nanmean(co2, axis=(1, 2))
+idx_mejor_aire = np.argmin(co2_por_estacion)
+estacion_mejor_aire = estaciones[idx_mejor_aire]
+
+# 4. Hora más calurosa del día
+temp_por_hora = np.nanmean(temperatura, axis=(0, 1))
+hora_mas_calurosa = np.argmax(temp_por_hora)
+
+# 5. Hora con peor calidad de aire
+co2_por_hora = np.nanmean(co2, axis=(0, 1))
+hora_peor_aire = np.argmax(co2_por_hora)
+
+# 6. Número de valores faltantes
+nan_temperatura = np.sum(np.isnan(temperatura))
+nan_humedad = np.sum(np.isnan(humedad))
+nan_co2 = np.sum(np.isnan(co2))
+total_nan = nan_temperatura + nan_humedad + nan_co2
+
+print("")
+print("╔══════════════════════════════════════════════════════════════════════╗")
+print("║                                                                      ║")
+print("║               METEOSENSE - REPORTE EJECUTIVO SEMANAL               ║")
+print("║                        CDMX - Semana de Análisis                     ║")
+print("║                                                                      ║")
+print("╠══════════════════════════════════════════════════════════════════════╣")
+print("║                                                                      ║")
+print("║    RESUMEN DE CONDICIONES                                           ║")
+print("║  ─────────────────────────────────────────────────────────────────   ║")
+print(f"║       Temperatura promedio:    {np.nanmean(temperatura):>5.1f} °C                        ║")
+print(f"║      Humedad promedio:         {np.nanmean(humedad):>5.1f} %                         ║")
+print(f"║      CO2 promedio:            {np.nanmean(co2):>6.1f} ppm                       ║")
+print("║                                                                      ║")
+print("║    RANKINGS                                                         ║")
+print("║  ─────────────────────────────────────────────────────────────────   ║")
+print(f"║      Estación más calurosa:   {estacion_mas_calurosa:15s}                  ║")
+print(f"║      Estación más húmeda:     {estacion_mas_humeda:15s}                  ║")
+print(f"║      Mejor calidad de aire:   {estacion_mejor_aire:15s}                  ║")
+print("║                                                                      ║")
+print("║    PATRONES TEMPORALES                                              ║")
+print("║  ─────────────────────────────────────────────────────────────────   ║")
+print(f"║       Hora más calurosa:       {hora_mas_calurosa:02d}:00 hrs                          ║")
+print(f"║      Hora con más CO2:         {hora_peor_aire:02d}:00 hrs                          ║")
+print("║                                                                      ║")
+print("║     CALIDAD DE DATOS                                                ║")
+print("║  ─────────────────────────────────────────────────────────────────   ║")
+print(f"║    Valores faltantes totales:  {total_nan:4d}                                 ║")
+print(f"║      - Temperatura: {nan_temperatura:3d}                                            ║")
+print(f"║      - Humedad:     {nan_humedad:3d}                                            ║")
+print(f"║      - CO2:         {nan_co2:3d}                                            ║")
+print("║                                                                      ║")
+print("╚══════════════════════════════════════════════════════════════════════╝")
+print("")
